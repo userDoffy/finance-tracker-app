@@ -1,0 +1,4 @@
+::placeholder {
+    color: #ccc !important;
+    opacity: 1; /* Ensures the placeholder is fully visible */
+  }

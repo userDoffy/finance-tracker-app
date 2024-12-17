@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState,useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { authContext } from "../context/authcontext";
 
 const Login = () => {
+  const { setIsAuthenticated } = useContext(authContext);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -32,8 +34,8 @@ const Login = () => {
       });
 
       if (response.status === 200 && response.data.status === "success") {
-        alert("Login successful! Redirecting to the dashboard...");
         localStorage.setItem("authToken", response.data.token);
+        setIsAuthenticated(true)
         navigate("/dashboard"); 
       } else {
         setError(response.data.message || "Login failed. Please try again.");

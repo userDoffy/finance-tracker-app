@@ -1,9 +1,8 @@
-POST http://localhost:3000/signup HTTP/1.1
+POST http://localhost:3000/transactions/addone HTTP/1.1
 content-type: application/json
 {
-    "firstname": "aadi",
-    "lastname": "bhai",
-    "username":"ab12",
-    "email": "adi@gmail.com",
-    "password":"aabb"
+    "userid": '675e8fcee31c283726c58326',
+    "type": "credit",
+    "amount":12000,
+    "description": "salary"
 }

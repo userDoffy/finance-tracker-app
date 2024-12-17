@@ -2,7 +2,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { insertUser, getUserbyEmail } from "./database/models/userFunctions.js";
 const saltRounds = 10;
-const JWT_SECRET = process.env.JWT_SECRET
+const JWT_SECRET = "dhsahdbfhj12332"
 
 export const signup = async (data,res) => {
   try {
@@ -41,7 +41,8 @@ export const login = async (data,res) => {
       JWT_SECRET,
       { expiresIn: "2 days" }
     );
-    res.status(200).json({ status: "success",message: "Logged in successfully!",token })
+    const userId=user._id
+    res.status(200).json({ status: "success",message: "Logged in successfully!",token,userId})
   } catch (error) {
     console.error("Error during login:", error.message);
     res.status(500).json({ status: "error", message: "Login failed." });

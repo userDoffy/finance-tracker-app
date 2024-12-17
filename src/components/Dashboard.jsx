@@ -1,44 +1,96 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { Pie } from "react-chartjs-2";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+
+// Register required Chart.js components
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 const Dashboard = () => {
-  const navigate = useNavigate();
+  const [transactions, setTransactions] = useState([]);
 
-  const handleLogout = () => {
-    // Clear the token from localStorage
-    localStorage.removeItem("authToken");
-    // Redirect to login page
-    navigate("/login");
+  const token = localStorage.getItem("authToken");
+  const API_BASE_URL = "http://localhost:3000/transactions";
+
+  const fetchTransactions = async () => {
+    try {
+      const response = await axios.post(
+        `${API_BASE_URL}/fetchall`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      setTransactions(response.data.transactions);
+    } catch (error) {
+      console.error("Error fetching transactions:", error.message);
+    }
+  };
+
+  useEffect(() => {
+    fetchTransactions();
+  }, []);
+
+  const pieChartData = {
+    labels: transactions.map((t) => t.description),
+    datasets: [
+      {
+        data: transactions.map((t) => t.amount),
+        backgroundColor: [
+          "#007bff",
+          "#ff6600",
+          "#ff33cc",
+          "#00cc66",
+          "#ff0000",
+        ],
+        hoverBackgroundColor: [
+          "#0056b3",
+          "#cc5200",
+          "#cc0099",
+          "#00994d",
+          "#cc0000",
+        ],
+      },
+    ],
   };
 
   return (
-    <div className="vh-100 bg-dark text-white">
-      <div className="d-flex justify-content-between align-items-center p-3">
-        <h1 className="text-primary">Dashboard</h1>
-        <button className="btn btn-danger" onClick={handleLogout}>
-          Logout
-        </button>
-      </div>
-      <div className="container mt-5">
-        <h2 className="text-center text-primary mb-4">Welcome to the Dashboard</h2>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
-          bibendum, libero nec suscipit tempus, ex justo pretium risus, non
-          fermentum eros neque ut velit. Quisque vel justo lacus. Integer
-          fringilla arcu nec sagittis mattis. Suspendisse potenti.
-        </p>
-        <p>
-          Mauris in massa vel ligula lacinia consequat. Nulla facilisi. Nullam
-          sed quam a elit viverra vestibulum. Donec efficitur tellus id diam
-          elementum, id dictum eros luctus. Suspendisse euismod risus non nisl
-          placerat aliquet.
-        </p>
-        <p>
-          Integer vitae volutpat purus. Morbi sit amet tortor venenatis,
-          fringilla orci in, suscipit quam. Integer vitae scelerisque justo, id
-          convallis odio. Ut ut metus ex. Donec tempus elit vel nulla gravida
-          convallis.
-        </p>
+    <div className="container-fluid py-5 bg-dark text-white vh-100">
+      <div className="row my-5">
+        <div className="col-md-6 d-flex flex-column align-items-center">
+          <h3 className="text-center mb-3">Total Expenses</h3>
+          {/* Make Pie Chart smaller */}
+          <div style={{ width: "300px", height: "300px" }}>
+            <Pie data={pieChartData} />
+          </div>
+        </div>
+        <div className="col-md-6">
+          <h3 className="text-center text-primary">Report</h3>
+          <table className="table table-hover table-dark bg-secondary" >
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Type</th>
+                <th>Amount</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              {transactions.map((t, index) => (
+                <tr key={index}>
+                  <td>{index + 1}</td>
+                  <td>{t.type || "N/A"}</td>
+                  <td>{t.amount || 0}</td>
+                  <td>{t.description || "N/A"}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
