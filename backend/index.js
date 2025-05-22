@@ -1,9 +1,12 @@
 import express from "express";
+import dotenv from "dotenv";
+dotenv.config();
 import cors from "cors";
 import { connection_db } from "./database.js";
 import { login, signup } from "./auth.js";
 import { addone, deleteone, fetchall } from "./transactions.js";
 import { verifyToken } from "./authmiddleware.js";
+
 
 const app = express();
 const port = 3000;
