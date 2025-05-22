@@ -11,7 +11,7 @@ const Transaction = () => {
   });
   const token = localStorage.getItem("authToken"); // Get the token for authentication
   // API Base URL
-  const API_BASE_URL = "http://localhost:3000/transactions";
+  const API_BASE_URL = "https://finance-tracker-app-4i9b.onrender.com/transactions";
 
   // Fetch all transactions
   const fetchTransactions = async () => {

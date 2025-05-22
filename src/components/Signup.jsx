@@ -20,7 +20,7 @@ const Signup = () => {
 
     try {
 
-      const response = await axios.post("http://localhost:3000/signup", formData, {
+      const response = await axios.post("https://finance-tracker-app-4i9b.onrender.com/signup", formData, {
         headers: {
           "Content-Type": "application/json",
         },
