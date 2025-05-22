@@ -1,8 +1,10 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { insertUser, getUserbyEmail } from "./database/models/userFunctions.js";
+import dotenv from "dotenv";
+dotenv.config();
 const saltRounds = 10;
-const JWT_SECRET = "dhsahdbfhj12332"
+const JWT_SECRET = process.env.JWT_SECRET 
 
 export const signup = async (data,res) => {
   try {

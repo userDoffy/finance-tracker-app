@@ -1,7 +1,9 @@
 import mongoose from 'mongoose'
+import dotenv from 'dotenv'
+dotenv.config()
 
 export const connection_db = async()=>{
-    const conn= await mongoose.connect("mongodb+srv://aaditya:aadi%4098451@bookstore.o9ih2uw.mongodb.net/finance_tracker?retryWrites=true&w=majority&appName=BookStore")
+    const conn= await mongoose.connect(process.env.mongo_uri)
     if(conn){
         console.log("Yepiee MongoDb connected")
     }
