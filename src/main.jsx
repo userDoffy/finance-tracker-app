@@ -7,7 +7,7 @@ import Login from "./components/Login.jsx";
 import Signup from "./components/Signup.jsx";
 import Dashboard from "./components/Dashboard.jsx";
 import Transactions from "./components/Transactions.jsx";
-import ProtectedRoute from "./components/Protectedroute";
+import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import Header from "./components/layout/Header.jsx";
 import { authContext } from "./context/authcontext.js";
 
