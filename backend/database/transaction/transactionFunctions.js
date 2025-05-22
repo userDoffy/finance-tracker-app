@@ -1,4 +1,4 @@
-import Transaction from "./transactionSchema.js";
+import Transaction from "./transactionModel.js";
 
 export const fetchTransaction = (userid) => {
   return Transaction.find({ userid:userid });
